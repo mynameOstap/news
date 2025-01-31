@@ -1,0 +1,6 @@
+@news_agregator_HostAddress = http://localhost:5079
+
+GET {{news_agregator_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

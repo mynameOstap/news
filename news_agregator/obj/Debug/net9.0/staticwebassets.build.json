@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "w3u5PKNARkugUsGnbjaeScsWPDxQv8X0rTI2Ifc64+I=",
+  "Source": "news_agregator",
+  "BasePath": "_content/news_agregator",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
