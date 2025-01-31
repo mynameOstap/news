@@ -1,44 +1,48 @@
-﻿
-
-
-using System.Text.Json;
-using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Model;
+using NewsAPI;
+using NewsAPI.Models;
+using NewsAPI.Constants;
+using Microsoft.Extensions.Configuration; 
 
 namespace Service
 {
     public class NewsService
     {
-        private readonly HttpClient _httpClient;
-        private const string ApiKey = "85fc41331ba540da80351fb4e949e501";
-        private const string BaseUrl = "https://newsapi.org/v2/top-headlines?";
+        private readonly NewsApiClient _newsApiClient;
+        
 
-        public NewsService(HttpClient httpClient)
+        public NewsService(IConfiguration configuration)
         {
-            _httpClient = httpClient;
+            var apiKey = configuration["NewsApiSettings:ApiKey"];
+            _newsApiClient = new NewsApiClient(apiKey);
         }
 
-        public async Task<List<sources>> GetNewsAsync(string category = null)
+        public async Task<List<Article>> GetNewsAsync(string query , string category = null, string language = "uk")
         {
-            var allAricles =  new List<sources>();
-            var builder = new UriBuilder("https://newsapi.org/v2/top-headlines");
-
-            var query = HttpUtility.ParseQueryString(builder.Query);
-            query["apiKey"] = ApiKey;
-            if (!string.IsNullOrEmpty(category))
+            var allAricle = new List<Article>();
+            
+            var articlesResponse = _newsApiClient.GetEverything(new EverythingRequest
             {
-                query["category"] = category;
+                Q = query,
+                SortBy = SortBys.Popularity,
+                Language = (Languages)Enum.Parse(typeof(Languages), language, true),
+                From = DateTime.UtcNow.AddDays(-7)
+
+            });
+
+            if (articlesResponse.Status == Statuses.Ok)
+            {
+                
+                allAricle.AddRange(articlesResponse.Articles);
+                return articlesResponse.Articles;
             }
-            builder.Query = query.ToString();
-            string url = builder.ToString();
-            var response = await _httpClient.GetStringAsync(url);
-            var newsResponse = JsonSerializer.Deserialize<NewsResponse>(response);
 
-            if (newsResponse?.sources != null)
-                allAricles.AddRange(newsResponse.sources);
+            return new List<Article>();
 
-            return allAricles;
+
         }
     }
 }
-

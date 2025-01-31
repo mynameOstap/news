@@ -11,6 +11,11 @@ namespace Configurate
     {
         public static void AddApiAuthentication(this IServiceCollection services, IConfiguration configuration, JwtOptions jwtOptions)
         {
+            if (string.IsNullOrEmpty(jwtOptions.SecretKey) || jwtOptions.SecretKey.Length < 32)
+            {
+                throw new ArgumentException("JWT SecretKey must be at least 32 characters long");
+            }
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

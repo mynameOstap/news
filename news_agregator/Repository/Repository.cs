@@ -49,7 +49,7 @@ namespace Repository
 
         public async Task Remove(T entity)
         {
-             dbSet.Remove(entity);
+            dbSet.Remove(entity);
         }
 
         public async Task Save()

@@ -1,20 +1,25 @@
-﻿namespace Model
+﻿
 
 
+
+   /*
+   public class NewsResponse
 {
-    public class NewsResponse
-    {
-        public List<sources> sources { get; set; }
-    }
-
-    public class sources
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string url { get; set; }
-        public string category { get; set; }
-        public string language { get; set; }
-        public string country { get; set; }
-    }
+    public string Status { get; set; }
+    public int TotalResults { get; set; }
+    public List<Article> Articles { get; set; }
 }
+
+public class Article
+{
+    public string SourceId { get; set; }
+    public string SourceName { get; set; }
+    public string Author { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string Url { get; set; }
+    public string UrlToImage { get; set; }
+    public DateTime PublishedAt { get; set; }
+    public string Content { get; set; }
+}
+*/

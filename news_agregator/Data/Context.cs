@@ -14,15 +14,10 @@ namespace Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<NewsArticle> NewsArticles { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-        public DbSet<Preference> Preferences { get; set; }
         public DbSet<SavedArticle> SavedArticles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Preference)
-                .WithOne(p => p.User)
-                .HasForeignKey<Preference>(p => p.UserId);
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.User)

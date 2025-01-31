@@ -118,3 +118,6 @@ C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\bin\Debug\net9.0\t
 C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\obj\Debug\net9.0\news_agregator.sourcelink.json
+C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\bin\Debug\net9.0\NewsAPI.dll
+C:\Users\Gremblya\RiderProjects\news_agregator\news_agregator\bin\Debug\net9.0\Newtonsoft.Json.dll
