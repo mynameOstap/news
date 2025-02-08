@@ -13,11 +13,14 @@ namespace Controller
     {
         private readonly IRepository<NewsArticle> _dbNews;
         private readonly NewsService _news;
+        private readonly TokenService _tokenService;
 
-        public NewsController(IRepository<NewsArticle> dbNews, NewsService news)
+        public NewsController(IRepository<NewsArticle> dbNews, NewsService news, TokenService tokenService,IRepository<Comment> dbComment)
         {
             _dbNews = dbNews;
             _news = news;
+            _tokenService = tokenService;
+            
         }
 
         [HttpGet("news")]
@@ -35,6 +38,9 @@ namespace Controller
             
             return Ok(articles);
         }
+
+       
+        
     }
 }
 

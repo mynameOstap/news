@@ -48,7 +48,7 @@ namespace Controller
                     Notifications = new List<Notification>()
                 };
 
-                await _dbUser.Create(newUser);
+                 _dbUser.Create(newUser);
                 await _dbUser.Save();
                 
                 return Ok(new { success = true, message = "Користувача створено" });

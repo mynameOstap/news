@@ -59,24 +59,24 @@ namespace news_agregator.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("category");
+                        .HasColumnName("author");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("content");
 
-                    b.Property<DateTime>("PublishedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("publishedAt");
-
-                    b.Property<string>("Source")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("source");
+                        .HasColumnName("description");
+
+                    b.Property<DateTime?>("PublishedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("publishedAt");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -87,6 +87,11 @@ namespace news_agregator.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("url");
+
+                    b.Property<string>("UrlToImage")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("UrlToImage");
 
                     b.HasKey("Id");
 
@@ -121,40 +126,6 @@ namespace news_agregator.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("Model.Preference", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("category");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("Country");
-
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("Language");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("userId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Preference");
-                });
-
             modelBuilder.Entity("Model.SavedArticle", b =>
                 {
                     b.Property<int>("Id")
@@ -163,8 +134,7 @@ namespace news_agregator.Migrations
                         .HasColumnName("id");
 
                     b.Property<int>("ArticleId")
-                        .HasColumnType("int")
-                        .HasColumnName("articleId");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("SavedAt")
                         .HasColumnType("datetime(6)")
@@ -175,6 +145,8 @@ namespace news_agregator.Migrations
                         .HasColumnName("userId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("UserId");
 
@@ -199,7 +171,8 @@ namespace news_agregator.Migrations
                     b.Property<string>("HashPassword")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("hashPassword");
+                        .HasColumnName("hashPassword")
+                        .HasAnnotation("Relational:JsonPropertyName", "password");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -230,6 +203,29 @@ namespace news_agregator.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Model.NewsArticle", b =>
+                {
+                    b.OwnsOne("Source", "Source", b1 =>
+                        {
+                            b1.Property<int>("NewsArticleId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.HasKey("NewsArticleId");
+
+                            b1.ToTable("NewsArticles");
+
+                            b1.WithOwner()
+                                .HasForeignKey("NewsArticleId");
+                        });
+
+                    b.Navigation("Source")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Model.Notification", b =>
                 {
                     b.HasOne("Model.User", "User")
@@ -241,24 +237,21 @@ namespace news_agregator.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Model.Preference", b =>
+            modelBuilder.Entity("Model.SavedArticle", b =>
                 {
-                    b.HasOne("Model.User", "User")
-                        .WithOne("Preference")
-                        .HasForeignKey("Model.Preference", "UserId")
+                    b.HasOne("Model.NewsArticle", "NewsArticle")
+                        .WithMany("SavedArticles")
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Model.SavedArticle", b =>
-                {
                     b.HasOne("Model.User", "User")
                         .WithMany("SavedArticles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("NewsArticle");
 
                     b.Navigation("User");
                 });
@@ -266,6 +259,8 @@ namespace news_agregator.Migrations
             modelBuilder.Entity("Model.NewsArticle", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("SavedArticles");
                 });
 
             modelBuilder.Entity("Model.User", b =>
@@ -273,9 +268,6 @@ namespace news_agregator.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("Preference")
-                        .IsRequired();
 
                     b.Navigation("SavedArticles");
                 });

@@ -26,7 +26,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddHttpClient<NewsService>();
 builder.Services.AddScoped<TokenService>();
-builder.Services.AddSingleton<NewsService>();
+builder.Services.AddScoped<NewsService>();
+builder.Services.AddScoped<IRepository<Comment>, Repository<Comment>>();
+builder.Services.AddScoped<ISavedArtRepository, SavedArtRepository>();
 
 builder.Services.AddApiAuthentication(builder.Configuration, jwtOptions);
 builder.Services.AddHttpContextAccessor();
@@ -39,7 +41,9 @@ builder.Services.AddDbContext<Context>(options =>
     )
 );
 
-// Додати Swagger в сервіси
+
+
+
 builder.Services.AddSwaggerGen(); 
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));

@@ -18,14 +18,14 @@ namespace Repository
             this.dbSet = db.Set<T>();
         }
 
-        public async Task Create(T entity)
+        public void  Create(T entity)
         {
             
-            await dbSet.AddAsync(entity);
+             dbSet.AddAsync(entity);
             
         }
 
-        public async Task<List<T>> GetAll(Expression<Func<T, bool>> filter = null)
+        public async Task<List<T>> GetAll(Expression<Func<T, bool>>? filter = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -36,7 +36,7 @@ namespace Repository
             return await query.ToListAsync();
         }
 
-        public async Task<T> Get(Expression<Func<T, bool>> filter = null)
+        public async Task<T?> Get(Expression<Func<T, bool>>? filter = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -47,14 +47,14 @@ namespace Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task Remove(T entity)
+        public void Remove(T entity)
         {
-            dbSet.Remove(entity);
+              dbSet.Remove(entity);
         }
 
         public async Task Save()
         {
-            await _db.SaveChangesAsync();
+             await _db.SaveChangesAsync();
         }
     }
 }

@@ -34,6 +34,12 @@ namespace Data
                 .HasMany(n => n.Comments)
                 .WithOne(c => c.NewsArticle)
                 .HasForeignKey(c => c.ArticleId);
+
+            modelBuilder.Entity<SavedArticle>()
+                .HasOne(s => s.NewsArticle)
+                .WithMany(n => n.SavedArticles)
+                .HasForeignKey(s => s.ArticleId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
